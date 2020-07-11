@@ -1,25 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import ListOfProjects from './components/ListOfProjects';
+import Navigation from './components/Navigation';
 import './App.css';
+import * as API from './servise/api';
 
-function App() {
+import 'antd/dist/antd.css';
+
+const App = () => {
+  const [list, setList] = useState();
+
+  useEffect(
+    () => {
+      API.getProjects().then((data) => setList(data));
+    },
+    [],
+  );
+
+  // API.getProjects().then(console.log);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navigation />
+      <div style={{ padding: '40px', display: 'flex', maxWidth: '1440px' }}>
+        <div style={{ flexGrow: '1' }}>
+          <ListOfProjects data={list} />
+        </div>
+      </div>
+    </>
   );
 }
 
